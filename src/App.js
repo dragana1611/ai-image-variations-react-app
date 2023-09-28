@@ -5,6 +5,7 @@ import img from "./assets/coloring-smoke-ps.png";
 const App = () => {
   const [images, setImages] = useState(null);
   const [value, setValue] = useState(null);
+  const [error, setError] = useState(null);
   const surpriseOptions = [
     "A blue ostrich eating melon",
     "A matisee style shark on the telephone",
@@ -18,7 +19,16 @@ const App = () => {
     setValue(randomValue);
   };
 
-   const getImages = async () => {
+  const getImages = async () => {
+    setImages(null);
+    if (value === null) {
+      setError("Error! Must have a search term");
+      setTimeout(() => {
+        setError("");
+      }, 2500);
+      return;
+    }
+
     try {
       const options = {
         method: "POST",
@@ -55,12 +65,13 @@ const App = () => {
         <div className='input-container'>
           <input
             type='text'
-            placeholder='An impressionist oil paintining of a sunflower i a purple vase...'
+            placeholder='An impressionist oil paintining of a sunflower in a purple vase...'
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
           <button onClick={getImages}>Generate</button>
         </div>
+        {error && <p>{error}</p>}
       </section>
       <section className='image-section'>
         {!images ? (
