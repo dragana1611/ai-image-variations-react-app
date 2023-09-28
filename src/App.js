@@ -4,7 +4,7 @@ import img from "./assets/coloring-smoke-ps.png";
 
 const App = () => {
   const [images, setImages] = useState(null);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState("");
   const [error, setError] = useState(null);
   const surpriseOptions = [
     "A blue ostrich eating melon",
@@ -15,13 +15,13 @@ const App = () => {
   const surpriseMe = () => {
     const randomValue =
       surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)];
-    console.log(randomValue);
+
     setValue(randomValue);
   };
 
   const getImages = async () => {
     setImages(null);
-    if (value === null) {
+    if (value.trim() === "") {
       setError("Error! Must have a search term");
       setTimeout(() => {
         setError("");
@@ -41,7 +41,7 @@ const App = () => {
       };
       const response = await fetch("http://localhost:8000/images", options);
       const data = await response.json();
-      console.log(data);
+      
       setImages(data);
     } catch (error) {
       console.error(error.message);
@@ -71,7 +71,7 @@ const App = () => {
           />
           <button onClick={getImages}>Generate</button>
         </div>
-        {error && <p>{error}</p>}
+        {error && <p className='error-msg'>{error}</p>}
       </section>
       <section className='image-section'>
         {!images ? (

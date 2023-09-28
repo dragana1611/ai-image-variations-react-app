@@ -91,6 +91,11 @@ p {
   background-color: #cacaca;
 }
 
+.error-msg {
+  margin-top: 1rem;
+  color: #777;
+}
+
 .image-section {
   width: 100%;
   margin-top: 2rem;
